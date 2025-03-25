@@ -1,6 +1,45 @@
-import { Image, View, Text, SafeAreaView ,ScrollView, Button ,TouchableOpacity  } from 'react-native';
+import { Image, View, Text, SafeAreaView ,ScrollView, Button ,TouchableOpacity,Modal,TextInput  } from 'react-native';
 import React, { useState } from 'react';
+
 export default function TabTwoScreen() {
+  const NameDialog = ({ visible, onClose, onSubmit }: { visible: boolean, onClose: () => void, onSubmit: (name: string) => void }) => {
+    const [name, setName] = useState("");
+  
+    return (
+      <Modal visible={visible} transparent animationType="fade">
+        <View className="flex-1 w-full justify-center items-center bg-[rgba(0,0,0,0.5)]">
+          <View className="w-80 h-30 bg-white p-5 rounded-lg shadow-lg">
+            <Text className="text-xl font-bold mb-3">Enter Your Name</Text>
+            <TextInput
+              className="border border-gray-300 p-2 rounded-md w-full"
+              placeholder="Type your name"
+              value={name}
+              onChangeText={setName}
+            />
+            <View className="flex flex-row justify-end mt-4">
+              <TouchableOpacity onPress={onClose} className="mr-3">
+                <Text className="text-red-500 mt-2 font-bold">Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  onSubmit(name);
+                  onClose();
+                }}
+                className="bg-blue-500 px-4 py-2 rounded-md"
+              >
+                <Text className="text-white">Submit</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+  
+
+
+
+
   const data = [
     {url:"https://framerusercontent.com/images/xwt00t2Je5cSSuUF8XsWGqS1Dv4.png?scale-down-to=1024" ,text:"Improved Sonar Models: Industry Leading Performance at Lower Costs", date:"2021-09-01"},
     {url:"https://framerusercontent.com/images/yIYS6UJJ1tCVunyaMSasf0ore0s.png?scale-down-to=1024" ,text:"Improved Sonar Models: Industry Leading Performance at Lower Costs", date:"2021-09-01"},
@@ -14,13 +53,28 @@ export default function TabTwoScreen() {
     {url:"https://framerusercontent.com/images/7kssT89iBCO3qdpVSdHuaDlcFJQ.png?scale-down-to=1024" ,text:"Improved Sonar Models: Industry Leading Performance at Lower Costs", date:"2021-09-01"}, 
   ]
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const [opne, setopne] = useState(false);
+  console.log(opne);
+  const  handleSubmit = (name: string) => {
+    console.log(name);
+  }
   return (
     <SafeAreaView className="flex-1 mt-8 px-2 bg-white">
+       <NameDialog
+        visible={opne}
+        onClose={() => setopne(false)}
+        onSubmit={handleSubmit}
+      />
        <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 20 }}>
       {/* Title */}
-      <View className="w-full py-3">
-        <Text className="text-3xl font-bold">Perplexity</Text>
-      </View>
+      <View className="w-full py-5 px-4 flex flex-row justify-between items-center">  
+  <Text className="text-3xl font-bold text-black">Perplexity</Text>
+  <TouchableOpacity onPress={() => setopne(!opne)} className="w-12 h-10 flex  bg-wheate rounded-xl bg-[#6e5e5e] justify-center items-center">
+    <View className="w-full h-1 bg-gray-400"></View>
+    <View className="w-full h-1 bg-gray-400 my-2"></View>
+    <View className="w-full h-1 bg-gray-400"></View>
+  </TouchableOpacity>
+</View>
 
       {/* Image Section */}
       <View className="w-full py-3">
